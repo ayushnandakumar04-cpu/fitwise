@@ -1,0 +1,72 @@
+#api call for list
+###
+
+POST http://127.0.0.1:8000/fit/signup/
+Content-Type: application/json
+
+{
+    "username":"Fitest",
+    "email":"fit@gmail.com",
+    "password":"fitest@56"
+}
+#
+###
+GET http://127.0.0.1:8000/fit/Me/
+Accept: application/json
+Authorization: Basic Fitest:fitest@56
+
+#
+###
+
+GET http://127.0.0.1:8000/fit/food/
+Accept: application/json
+Authorization: Basic Fitest:fitest@56
+
+
+#
+###
+
+POST http://127.0.0.1:8000/fit/food/
+Content-Type: application/json
+Authorization: Basic Fitest:fitest@56
+
+{
+    
+    "title": "Fish Biriyani",
+    "meal_type": "lunch",
+    "service_size": "2 plate (350 g)",
+    "calories": 650
+
+}
+
+#
+###
+
+GET http://127.0.0.1:8000/fit/food/3
+Accept: application/json
+Authorization: Basic Fitest:fitest@56
+
+#
+###
+
+PUT http://127.0.0.1:8000/fit/food/3
+Content-Type: application/json
+Authorization: Basic Fitest:fitest@56
+
+{
+     "title": "Mutton Biriyani",
+    "meal_type": "dinner",
+    "service_size": "1 plate (350 g)",
+    "calories": 660
+}
+
+#
+###
+
+DELETE  http://127.0.0.1:8000/fit/food/2
+Content-Type: application/json
+Authorization: Basic Fitest:fitest@56
+
+{
+    "id":2
+}
