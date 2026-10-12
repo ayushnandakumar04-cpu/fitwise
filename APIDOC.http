@@ -70,3 +70,10 @@ Authorization: Basic Fitest:fitest@56
 {
     "id":2
 }
+
+#
+###
+
+GET http://127.0.0.1:8000/fit/summary/
+Accept: application/json
+Authorization: Basic Fitest:fitest@56

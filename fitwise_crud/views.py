@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from fitwise_crud.serializers import UserSerializer,FoodSerializer
 from rest_framework import authentication,permissions
 from rest_framework.response import Response
+from django.db.models import Sum,Count
 # Create your views here.
 class SignupRegisterView(APIView):
     def post(self,request):
@@ -76,4 +77,31 @@ class FoodListRetrieveView(APIView):
          instance=get_object_or_404(Foodlog,id=pk)
          instance.delete()
          return Response({"message": "Expense deleted successfully"})
-     
+
+
+
+class FoodSummaryView(APIView):
+
+    def get(self, request):
+
+        food_logs = Foodlog.objects.filter(
+            owner=request.user
+        )
+
+        total_calories = food_logs.aggregate(
+            total=Sum("calories")
+        )["total"] or 0
+
+        total_meals = food_logs.count()
+
+        meal_summary = food_logs.values(
+            "meal_type"
+        ).annotate(
+            total_calories=Sum("calories"),count=Count("id")
+        )
+
+        return Response({
+            "total_calories": total_calories,
+            "total_meals": total_meals,
+            "meal_summary": meal_summary
+        })   

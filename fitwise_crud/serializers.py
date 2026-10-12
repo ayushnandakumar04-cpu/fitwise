@@ -16,4 +16,4 @@ class FoodSerializer(serializers.ModelSerializer):
 
         model = Foodlog
         fields="__all__"
-        read_only_fields=["id","owner","created_at"]
+        read_only_fields=["id","owner","created_at","total"]
