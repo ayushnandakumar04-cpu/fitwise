@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'fitwise_crud',
     'rest_framework',
+    'rest_framework.authtoken',
+    'fitwise_crud',
 ]
 
 MIDDLEWARE = [

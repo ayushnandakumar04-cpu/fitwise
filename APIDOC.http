@@ -5,22 +5,36 @@ POST http://127.0.0.1:8000/fit/signup/
 Content-Type: application/json
 
 {
-    "username":"Fitest",
-    "email":"fit@gmail.com",
-    "password":"fitest@56"
+    "username":"Fitness",
+    "email":"fitness@gmail.com",
+    "password":"fitness@28"
+}
+
+#
+###
+
+POST http://127.0.0.1:8000/fit/token/
+Content-Type: application/json
+
+{
+    "username":"fitnes",
+    "password":"fit&76"
+
 }
 #
 ###
 GET http://127.0.0.1:8000/fit/Me/
 Accept: application/json
-Authorization: Basic Fitest:fitest@56
+#Authorization: Basic Fitness:fitness@28
+Authorization: Token 9cbb3f9775307f13760b977bebdd52ba567f5105
 
 #
 ###
 
 GET http://127.0.0.1:8000/fit/food/
 Accept: application/json
-Authorization: Basic Fitest:fitest@56
+#Authorization: Basic Fitness:fitness@28
+Authorization:  Token 9cbb3f9775307f13760b977bebdd52ba567f5105
 
 
 #
@@ -28,11 +42,12 @@ Authorization: Basic Fitest:fitest@56
 
 POST http://127.0.0.1:8000/fit/food/
 Content-Type: application/json
-Authorization: Basic Fitest:fitest@56
+#Authorization: Basic Fitness:fitness@28
+Authorization: Token 9cbb3f9775307f13760b977bebdd52ba567f5105
 
 {
     
-    "title": "Fish Biriyani",
+    "title": "chiicken Biriyani",
     "meal_type": "lunch",
     "service_size": "2 plate (350 g)",
     "calories": 650
@@ -42,33 +57,38 @@ Authorization: Basic Fitest:fitest@56
 #
 ###
 
-GET http://127.0.0.1:8000/fit/food/3
+GET http://127.0.0.1:8000/fit/food/6/
 Accept: application/json
-Authorization: Basic Fitest:fitest@56
+#Authorization: Basic fitnes:fit&76
+Authorization: Token 9cbb3f9775307f13760b977bebdd52ba567f5105
+
+
 
 #
 ###
 
-PUT http://127.0.0.1:8000/fit/food/3
+PUT http://127.0.0.1:8000/fit/food/6/
 Content-Type: application/json
-Authorization: Basic Fitest:fitest@56
+#Authorization: Basic fitnes:fit@76
+Authorization:Token 9cbb3f9775307f13760b977bebdd52ba567f5105
 
 {
-     "title": "Mutton Biriyani",
-    "meal_type": "dinner",
-    "service_size": "1 plate (350 g)",
+    "title": "egg Biriyani",
+    "meal_type": "lunch",
+    "service_size": "1 plate (300 g)",
     "calories": 660
 }
 
 #
 ###
 
-DELETE  http://127.0.0.1:8000/fit/food/2
+DELETE  http://127.0.0.1:8000/fit/food/7/
 Content-Type: application/json
-Authorization: Basic Fitest:fitest@56
+#Authorization: Basic fitnes:fit&76
+Authorization: Token 9cbb3f9775307f13760b977bebdd52ba567f5105
 
 {
-    "id":2
+    "id":7
 }
 
 #

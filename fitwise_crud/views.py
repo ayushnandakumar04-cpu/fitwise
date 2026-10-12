@@ -7,6 +7,7 @@ from fitwise_crud.serializers import UserSerializer,FoodSerializer
 from rest_framework import authentication,permissions
 from rest_framework.response import Response
 from django.db.models import Sum,Count
+from fitwise_crud.permissions import IsFoodlogOwner
 # Create your views here.
 class SignupRegisterView(APIView):
     def post(self,request):
@@ -20,7 +21,7 @@ class SignupRegisterView(APIView):
         else:
             return Response(data=serializer_instance.errors)
 class GetMeView(APIView):
-    authentication_classes=[authentication.BasicAuthentication]
+    authentication_classes=[authentication.TokenAuthentication]
 
     permission_classes=[permissions.IsAuthenticated]
 
@@ -35,7 +36,7 @@ class GetMeView(APIView):
         return Response(data=serializer_instance.data)
     
 class FoodListCreateView(APIView):
-    authentication_classes=[authentication.BasicAuthentication]
+    authentication_classes=[authentication.TokenAuthentication]
     permission_classes=[permissions.IsAuthenticated]
 
     def get(self,request):
@@ -53,16 +54,18 @@ class FoodListCreateView(APIView):
             return Response(data=serializer_instance.errors)
 
 class FoodListRetrieveView(APIView):
-    authentication_classes=[authentication.BasicAuthentication]
-    permission_classes=[permissions.IsAuthenticated]
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[IsFoodlogOwner]
 
     def get(self,request,pk=None):
         qs=get_object_or_404(Foodlog,id=pk)
+        self.check_object_permissions(request,qs)
         serializer_instance=FoodSerializer(qs)
         return Response(data=serializer_instance.data)
 
     def put(self,request,pk=None):
          instance=get_object_or_404(Foodlog,id=pk)
+         self.check_object_permissions(request,instance)
          form_data=request.data
          serializer_instance=FoodSerializer(data=form_data,instance=instance)
          if serializer_instance.is_valid(): 
@@ -75,6 +78,7 @@ class FoodListRetrieveView(APIView):
 
     def delete(self,request,pk=None):
          instance=get_object_or_404(Foodlog,id=pk)
+         self.check_object_permissions(request,instance)
          instance.delete()
          return Response({"message": "Expense deleted successfully"})
 
@@ -105,3 +109,4 @@ class FoodSummaryView(APIView):
             "total_meals": total_meals,
             "meal_summary": meal_summary
         })   
+
