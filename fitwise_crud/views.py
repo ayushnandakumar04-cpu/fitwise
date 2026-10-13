@@ -6,7 +6,8 @@ from django.shortcuts import get_object_or_404
 from fitwise_crud.serializers import UserSerializer,FoodSerializer
 from rest_framework import authentication,permissions
 from rest_framework.response import Response
-from django.db.models import Sum,Count
+from django.db.models import Sum
+from datetime import datetime
 from fitwise_crud.permissions import IsFoodlogOwner
 # Create your views here.
 class SignupRegisterView(APIView):
@@ -85,28 +86,31 @@ class FoodListRetrieveView(APIView):
 
 
 class FoodSummaryView(APIView):
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
 
     def get(self, request):
 
-        food_logs = Foodlog.objects.filter(
-            owner=request.user
-        )
+        response_data={
+            "total_today":0
+        }
+    
+        cur_date=datetime.now().date()
+        cur_month=datetime.now().month
+        cur_year=datetime.now().year
 
-        total_calories = food_logs.aggregate(
-            total=Sum("calories")
-        )["total"] or 0
+        monthly_transactions=Foodlog.objects.filter(owner=request.user,created_at__month=cur_month,created_at__year=cur_year)
+        if monthly_transactions:
+            monthly_total=monthly_transactions.values("calories").aggregate(total=Sum("calories")).get("total")
+            response_data["monthly_total"]=monthly_total
 
-        total_meals = food_logs.count()
+        todays_calorie=Foodlog.objects.filter(owner=request.user,created_at__date=cur_date)
+        if todays_calorie:
+            total_today=todays_calorie.values("calories").aggregate(total=Sum("calories")).get("total")
+            #todays meal_type
+            total_meal=todays_calorie.values("meal_type").annotate(total=Sum("calories"))
+            response_data={"total_today":total_today}
+            response_data={"total_meal_type":total_meal}
+            #monthly
 
-        meal_summary = food_logs.values(
-            "meal_type"
-        ).annotate(
-            total_calories=Sum("calories"),count=Count("id")
-        )
-
-        return Response({
-            "total_calories": total_calories,
-            "total_meals": total_meals,
-            "meal_summary": meal_summary
-        })   
-
+        return Response(data=response_data)

@@ -47,9 +47,9 @@ Authorization: Token 9cbb3f9775307f13760b977bebdd52ba567f5105
 
 {
     
-    "title": "chiicken Biriyani",
-    "meal_type": "lunch",
-    "service_size": "2 plate (350 g)",
+    "title": "fish Biriyani",
+    "meal_type": "dinner",
+    "service_size": "1 plate (350 g)",
     "calories": 650
 
 }
@@ -96,4 +96,5 @@ Authorization: Token 9cbb3f9775307f13760b977bebdd52ba567f5105
 
 GET http://127.0.0.1:8000/fit/summary/
 Accept: application/json
-Authorization: Basic Fitest:fitest@56
+#Authorization: Basic Fitest:fitest@56
+Authorization:  Token 9cbb3f9775307f13760b977bebdd52ba567f5105
