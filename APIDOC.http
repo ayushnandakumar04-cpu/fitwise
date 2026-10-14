@@ -47,8 +47,8 @@ Authorization: Token 9cbb3f9775307f13760b977bebdd52ba567f5105
 
 {
     
-    "title": "fish Biriyani",
-    "meal_type": "dinner",
+    "title": "pups",
+    "meal_type": "snack",
     "service_size": "1 plate (350 g)",
     "calories": 650
 
@@ -73,7 +73,7 @@ Content-Type: application/json
 Authorization:Token 9cbb3f9775307f13760b977bebdd52ba567f5105
 
 {
-    "title": "egg Biriyani",
+    "title": "fried rice",
     "meal_type": "lunch",
     "service_size": "1 plate (300 g)",
     "calories": 660
@@ -95,6 +95,14 @@ Authorization: Token 9cbb3f9775307f13760b977bebdd52ba567f5105
 ###
 
 GET http://127.0.0.1:8000/fit/summary/
+Accept: application/json
+#Authorization: Basic Fitest:fitest@56
+Authorization:  Token 9cbb3f9775307f13760b977bebdd52ba567f5105
+
+#
+###
+
+GET http://127.0.0.1:8000/fit/diet/
 Accept: application/json
 #Authorization: Basic Fitest:fitest@56
 Authorization:  Token 9cbb3f9775307f13760b977bebdd52ba567f5105

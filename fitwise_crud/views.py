@@ -8,6 +8,7 @@ from rest_framework import authentication,permissions
 from rest_framework.response import Response
 from django.db.models import Sum
 from datetime import datetime
+from fitwise_crud.ai_program import get_budget_plan
 from fitwise_crud.permissions import IsFoodlogOwner
 # Create your views here.
 class SignupRegisterView(APIView):
@@ -114,3 +115,23 @@ class FoodSummaryView(APIView):
             #monthly
 
         return Response(data=response_data)
+
+class DietPlanView(APIView):
+    authentication_classes=[authentication.TokenAuthentication]
+    permission_classes=[permissions.IsAuthenticated]
+
+    def get (self,request):
+        user=request.user
+        #monthly total
+
+        curr_month=datetime.now().month
+        curr_year=datetime.now().year
+        response_data={"monthly_Expense_total":0}
+        monthly_calories=Foodlog.objects.filter(owner=request.user,created_at__month=curr_month,created_at__year=curr_year)
+        if monthly_calories:
+            monthly_total=monthly_calories.values("calories").aggregate(total=Sum("calories")).get("total")
+            response_data["monthly_total"]=monthly_total
+            meal_type_summary=monthly_calories.values("meal_type").annotate(total=Sum("calories"))
+            response_data["meal_type_summary"]=meal_type_summary  
+            get_budget_plan(response_data)
+        return Response(response_data)
