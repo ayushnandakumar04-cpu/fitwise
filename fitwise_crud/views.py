@@ -133,5 +133,6 @@ class DietPlanView(APIView):
             response_data["monthly_total"]=monthly_total
             meal_type_summary=monthly_calories.values("meal_type").annotate(total=Sum("calories"))
             response_data["meal_type_summary"]=meal_type_summary  
-            get_budget_plan(response_data)
+            diet_plan=get_budget_plan(response_data) 
+            response_data["plan"]=diet_plan
         return Response(response_data)
